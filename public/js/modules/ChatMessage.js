@@ -5,7 +5,7 @@ export default {
     props: ['msg'],
 
     template: `
-        <p class="new-message" :class="{ 'my_message' : matchedID }">
+        <p class="new-message" :class="{ 'my-message' : matchedID }">
             <span>{{msg.message.name}} says:</span>
             {{msg.message.content}}
         </p>
