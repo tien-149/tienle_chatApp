@@ -14,19 +14,24 @@
 			<label for="nickname">Your Nickname (optional)</label>
 			<input type="text" id="nickname" class="nickname" placeholder="What is your nickname?">
 
-			<form>
-				<label for="message">Something to say?</label>
-				<textarea v-model="message" class="message" type="text" autocomplete="off" id="textarea"></textarea>
-				<input @click.prevent="dispatchMessage" type="submit">
-			</form>
+			<form class="col-md-8">
+				<textarea v-model="message" class="message w-100" type="text" autocomplete="off" id="textarea"></textarea>
+				<input @click.prevent="dispatchMessage" type="submit" value="Send" />
+			  </form>
+	  
+			  <ul class="" id="notifications">
+				<li v-for="notification in notifications">{{notification}}</li>
+			  </ul>
 		</section>
 
 		<section class="messages">
-			<ul id="messages" >
-				<!-- render a new message component for every message -->
-				<newMessage :msg="message" v-for="message in messages"></newMessage>
+			<ul id="messages" v-for="message in messages">
+			  <!-- render a new message component for every message -->
+	
+			  <newmessage :msg="message" />
 			</ul>
-		</section>
+	
+		  </section>
 	</main>
 	<script src="/socket.io/socket.io.js"></script>
 	<script type="module" src="js/main_vm.js"></script>

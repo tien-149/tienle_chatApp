@@ -9,10 +9,16 @@ function setUserId({sID, message}) {
     vm.socketID = sID;
 }
 
-function runDisconnectMessage(packet) {
-    //debugger;
-    console.log(packet);
-}
+function runNotification(packet) {
+    vm.notifications.push(packet)
+  }
+
+
+
+// function runDisconnectMessage(packet) {
+//     //debugger;
+//     console.log(packet);
+// }
 
 function appendNewMessage(msg) {
     // take the incoming message and push it into the Vue instance 
@@ -20,13 +26,20 @@ function appendNewMessage(msg) {
     vm.messages.push(msg);
 }
 
+function userListUpdate(users){
+    vm.users=users;
+}
+
+
 // this is our main Vue instance
 const vm = new Vue({
     data: {
         socketID: "",      
         messages: [],
         message: "",
-        nickName: ""
+        nickName: "",
+        notifications: [],
+        users: []
     },
     
     methods: {
@@ -36,16 +49,15 @@ const vm = new Vue({
 
             socket.emit('chat_message', { 
                 content: this.message,
-                name: this.nickName || "anonymous"
+                name: this.socketID || "anomynous"
                 // || is called a double pipe operator or an "or" operator
                 // if this.nickName is set, use it as the value
                 // or just make name "anonymous"
-            })
+            });
 
             this.message = "";
-            this,nickName = "";
-        }
 
+        }
     },
 
     components: {
@@ -58,7 +70,11 @@ const vm = new Vue({
 }).$mount("#app");
 
 
+
 // some event handling -> these events are coming from the server
 socket.addEventListener('connected', setUserId);
-socket.addEventListener('user_disconnect', runDisconnectMessage);
+socket.addEventListener('user_disconnect', runNotification);
+socket.addEventListener('user_connected', runNotification);
 socket.addEventListener('new_message', appendNewMessage);
+socket.addEventListener('updateList', userListUpdate);
+

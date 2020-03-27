@@ -66,7 +66,12 @@ form {
 	li { padding: 5px 10px;	}
 	li:nth-child(odd) { background: #eee; }
 }
-
+#notification{
+    li{
+        font-size: 15px;
+        padding: 10px;
+    }
+}
 // imports
 
 @import 'modules/_message';
