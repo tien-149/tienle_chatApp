@@ -26,6 +26,9 @@ function appendNewMessage(msg) {
     vm.messages.push(msg);
 }
 
+function userListUpdate(users){
+    vm.users=users;
+}
 
 
 // this is our main Vue instance
@@ -35,7 +38,8 @@ const vm = new Vue({
         messages: [],
         message: "",
         nickName: "",
-        notifications: []
+        notifications: [],
+        users: []
     },
     
     methods: {
@@ -52,6 +56,7 @@ const vm = new Vue({
             });
 
             this.message = "";
+
         }
     },
 
@@ -71,3 +76,5 @@ socket.addEventListener('connected', setUserId);
 socket.addEventListener('user_disconnect', runNotification);
 socket.addEventListener('user_connected', runNotification);
 socket.addEventListener('new_message', appendNewMessage);
+socket.addEventListener('updateList', userListUpdate);
+

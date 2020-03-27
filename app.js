@@ -16,13 +16,16 @@ app.get('/', (req, res) => {
 const server = app.listen(port, () => {
     console.log(`app is running on port ${port}`);
 });
-
+let userList = [];
 // attach our chat server to our app
 io.attach(server);
 
 io.on('connection', function(socket) { // socket is your connection
     console.log('a user has connected');
+    userList.push(socket.id)
+
     socket.emit("connected", { sID: `${socket.id}`, message: "new connection" });
+    io.emit('updateList', userList);
 
     io.emit("user_connected", `${socket.id} has joined the chat`);
     socket.on('chat_message', function(msg) {
